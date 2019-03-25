@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <h3>Lokasi Outbond LKMM TD FTI 2017</h3>
+  <p>
+  *klik pada marker untuk lihat informasi foto
+    <style>
+      #map-canvas {
+        width: 500px;
+        height: 500px;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNnzxae2AewMUN0Tt_fC3gN38goeLVdVE"></script>
+    <script>
+     
+    var markers = [
+      ['Posko 1 (Seminar F)', -0.913953, 100.461036, '1.jpg'],
+      ['Posko 2 (Parkiran PNP)', -0.914940, 100.466667, '2.jpg'],
+	  ['Posko 3 (Hutan Biologi1)', -0.913013, 100.469119, '3.jpg'],
+      ['Posko 4 (Hutan Biologi2)', -0.910648, 100.466492, '4.jpg'],
+      ['Posko 5 (Lap. Futsal)', -0.907882, 100.460858, '5.jpg'],
+    ];
+ 
+      function initialize() {
+        var mapCanvas = document.getElementById('map-canvas');
+        var mapOptions = {
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }     
+        var map = new google.maps.Map(mapCanvas, mapOptions)
+ 
+    var infowindow = new google.maps.InfoWindow(), marker, i;
+    var bounds = new google.maps.LatLngBounds(); // diluar looping
+    for (i = 0; i < markers.length; i++) {  
+    pos = new google.maps.LatLng(markers[i][1], markers[i][2]);
+    bounds.extend(pos); // di dalam looping
+    marker = new google.maps.Marker({
+        position: pos,
+        map: map
+    });
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+            infowindow.setContent(markers[i][0]);
+            infowindow.open(map, marker);
+			var hasil = '<img src="'+markers[i][3]+'"/>';
+			document.getElementById("hasil").innerHTML=hasil;
+        }
+    })(marker, i));
+    map.fitBounds(bounds); // setelah looping
+    }
+ 
+      }
+ 
+ 
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    <div style="float:left;" id="map-canvas"></div>
+	<div id="hasil"></div>
+	
+  </body>
+</html>
